@@ -1,0 +1,225 @@
+/* TAPESTRY project page
+   --------------------------------------------------------------
+   Aesthetic: warm off-white background, near-black body, single
+   blue accent for links/rules. Display in Fraunces (variable),
+   body in Inter. No icons, no boxes, no gradients. Long calm
+   scroll with generous vertical rhythm.
+*/
+
+:root {
+  /* Palette — pulled from the paper's figure code.
+     hf_diagnostics/render_figures.py:
+       C_VIDEO_DARK  = #0b5394   (ocean blue)
+       C_ACTION_DARK = #ff9900   (orange)
+     Purple is a placeholder for the algorithm-figure violet.
+  */
+  --bg:           #FAFAF7;
+  --text:         #1A1A1A;
+  --text-muted:   #5A5A57;
+  --rule:         #E5E2D8;
+
+  --accent:       #0b5394;       /* primary — links, rule emphasis  */
+  --accent-warm:  #ff9900;       /* secondary — reserved for media  */
+  --accent-cool:  #7B6BAE;       /* tertiary  — algorithm-figure violet (headliner_v6) */
+
+  --measure:       38rem;        /* ~680px ideal prose width        */
+  --measure-wide:  60rem;        /* ~1080px for media               */
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 7rem 1.5rem 6rem;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 2.5rem;
+}
+
+.title {
+  /* Proportional geometric sans, heavy weight. Reads as a
+     wordmark — wider letterforms than a display serif so the
+     all-caps "TAPESTRY" doesn't feel narrow/tall. Easy swaps:
+       'Manrope'           (current) — clean, slightly humanist
+       'Plus Jakarta Sans'           — friendlier, more rounded
+       'Sora'                        — more geometric / engineered
+  */
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.75rem, 7.5vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.75rem;
+}
+
+.tagline {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 36, "wght" 400;
+  font-size: 1.35rem;
+  line-height: 1.45;
+  color: var(--text);
+  max-width: 30rem;
+  margin: 0 auto 2.5rem;
+}
+
+/* ---------- Link buttons ---------- */
+
+.links {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- Sections ---------- */
+
+section {
+  margin-top: 4.5rem;
+}
+
+section h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-variation-settings: "opsz" 36, "wght" 600;
+  font-weight: 600;
+  font-size: 1.55rem;
+  letter-spacing: -0.005em;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+p { margin: 0 0 1.1rem; }
+
+p:last-child { margin-bottom: 0; }
+
+strong { font-weight: 600; }
+
+em {
+  font-style: italic;
+  color: var(--text);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: border-color 120ms ease;
+}
+
+a:hover { border-bottom-color: var(--accent); }
+
+/* ---------- BibTeX ---------- */
+
+.bibtex pre {
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.1rem 1.25rem;
+  margin: 0;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.bibtex code { font-family: inherit; }
+
+/* ---------- Media ---------- */
+
+.hero-video,
+.figure-wide,
+.video-stack {
+  width: min(var(--measure-wide), 100%);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.hero-video video,
+.figure-wide img,
+.figure-wide video,
+.video-stack video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+/* Reserve a 16:9 box up front so the video element doesn't collapse to
+   controls-only height before metadata loads. All rollouts are 1920x1080. */
+.video-stack video,
+.hero-video video {
+  aspect-ratio: 16 / 9;
+  background: #000;
+  object-fit: contain;
+}
+
+.hero-video figcaption,
+.figure-wide figcaption,
+.video-stack figcaption {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  text-align: center;
+}
+
+.video-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.video-stack figure { margin: 0; }
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+  main { padding: 4rem 1.25rem 3rem; }
+  .hero { margin-bottom: 3rem; }
+  section { margin-top: 3rem; }
+  body { font-size: 16px; }
+}

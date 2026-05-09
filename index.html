@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TAPESTRY — A Single Backbone for Video Generation and Robot Control</title>
+  <meta name="description" content="TAPESTRY: a world-action model that repurposes a pretrained video diffusion transformer into a robotic policy without requiring video generation at inference.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main>
+
+    <header class="hero">
+      <p class="eyebrow">Preprint &middot; under review</p>
+      <h1 class="title">TAPESTRY</h1>
+      <p class="tagline">
+        A single backbone for video <br> generation and robot control.
+      </p>
+
+      <nav class="links" aria-label="Paper resources">
+        <a href="#" class="btn">Paper</a>
+        <a href="#" class="btn">arXiv</a>
+        <a href="#" class="btn">Code</a>
+      </nav>
+    </header>
+
+    <!--
+    HERO VIDEO PLACEHOLDER
+    Drop a single muted-autoplay rollout here once the polished clip is ready.
+    Suggested: 16:9, ≤6 MB, h264, looped, no audio. The figure should "be" the
+    page above the fold on a typical laptop.
+
+    <figure class="hero-video">
+      <video src="videos/teaser.mp4" autoplay muted loop playsinline></video>
+      <figcaption>Single-step rollout on the coffee-scoop task.</figcaption>
+    </figure>
+    -->
+
+    <section class="abstract">
+      <h2>Abstract</h2>
+      <p>
+        Pretrained video generation models encode rich priors about physical
+        interactions, but leveraging them for robot control typically requires
+        either resource-intensive video generation at test time or action heads
+        trained from scratch that do not fully utilize the pretrained backbone.
+        We introduce <strong>TAPESTRY</strong>, a world-action model that
+        repurposes a pretrained video diffusion transformer into a robotic
+        policy without requiring video generation at inference. Our key idea is
+        to treat robot actions as single-patch tokens in the video model's
+        latent space. A lightweight linear projection maps each action timestep
+        to the patch dimensions of the pretrained VAE, and the resulting tokens
+        are processed by the same patchifying layers and transformer backbone
+        used for video.
+      </p>
+      <p>
+        The shared backbone is optimized through three diffusion objectives
+        sampled per minibatch element: <em>video diffusion</em> on robot and
+        human videos to establish dynamics priors,
+        <em>joint video&#x2009;+&#x2009;action diffusion</em> on robot
+        demonstrations under a coupled timestep and block-causal mask, and
+        <em>action-only diffusion</em> conditioned on clean image latents. At
+        test time, the model generates a compact action token sequence in a
+        single DDIM step from pure noise, producing smooth action chunks at
+        <strong>84&#x2009;ms</strong> per chunk on consumer hardware while
+        avoiding the cost of full video generation.
+      </p>
+    </section>
+
+    <section class="method">
+      <h2>Method</h2>
+      <figure class="figure-wide">
+        <img src="figures/architecture.png" alt="TAPESTRY architecture: video latents and action patches share patch-embed layers, the pretrained video diffusion backbone, and patch-unembed layers. Three training objectives (video diffusion, joint video+action diffusion, action-only diffusion) are sampled per minibatch element. At inference, the action-only path produces an action chunk in a single 84&#x2009;ms DDIM step.">
+      </figure>
+      <p>
+        TAPESTRY treats robot actions as single-patch tokens in the video
+        model's latent space. Video latents and action patches share the same
+        patchifying layers and the same diffusion backbone; only the tokenizers
+        differ. The shared backbone is trained jointly on three diffusion
+        objectives, and at test time the policy generates an action chunk in a
+        single DDIM step from pure noise &mdash; no video generation required.
+      </p>
+    </section>
+
+    <!--
+      Videos use `controls muted preload="metadata"` so the timeline scrubber
+      is visible — drag through to find good cut points, then re-encode the
+      file to the trimmed range. No autoplay, no audio. Once trimmed, swap
+      `controls` for `autoplay loop playsinline` to get the seamless gallery.
+    -->
+
+    <section class="results">
+      <h2>In-distribution rollouts</h2>
+      <div class="video-stack">
+        <figure><video src="videos/toolbox_id.mp4" controls muted preload="metadata" playsinline></video><figcaption>Toolbox</figcaption></figure>
+        <figure><video src="videos/oven_id.mp4"    controls muted preload="metadata" playsinline></video><figcaption>Oven</figcaption></figure>
+        <figure><video src="videos/coffee_id.mp4"  controls muted preload="metadata" playsinline></video><figcaption>Coffee</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="results">
+      <h2>Out-of-distribution generalization</h2>
+      <div class="video-stack">
+        <figure><video src="videos/oven_ood.mp4"      controls muted preload="metadata" playsinline></video><figcaption>Novel placement &mdash; croissant on transparent oven door</figcaption></figure>
+        <figure><video src="videos/boomerang_ood.mp4" controls muted preload="metadata" playsinline></video><figcaption>Novel composition &mdash; Lego on boomerang</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="bibtex">
+      <h2>Citation</h2>
+      <pre><code>@article{tapestry2026,
+  title  = {TAPESTRY: A Single Backbone for Video Generation and Robot Control},
+  author = {Anonymous},
+  year   = {2026}
+}</code></pre>
+    </section>
+
+  </main>
+
+</body>
+</html>
