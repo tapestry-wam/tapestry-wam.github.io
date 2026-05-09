@@ -22,8 +22,8 @@
   --accent-warm:  #ff9900;       /* secondary — reserved for media  */
   --accent-cool:  #7B6BAE;       /* tertiary  — algorithm-figure violet (headliner_v6) */
 
-  --measure:       38rem;        /* ~680px ideal prose width        */
-  --measure-wide:  60rem;        /* ~1080px for media               */
+  --measure:       50rem;        /* ~900px prose width              */
+  --measure-wide:  80rem;        /* ~1440px for media               */
 }
 
 * { box-sizing: border-box; }
