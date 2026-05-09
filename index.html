@@ -37,7 +37,7 @@
     page above the fold on a typical laptop.
 
     <figure class="hero-video">
-      <video src="videos/teaser.mp4" autoplay muted loop playsinline></video>
+      <video src="videos/teaser.mp4" controls autoplay muted playsinline preload="auto"></video>
       <figcaption>Single-step rollout on the coffee-scoop task.</figcaption>
     </figure>
     -->
@@ -78,8 +78,8 @@
         <img src="figures/architecture.png" alt="TAPESTRY architecture: video latents and action patches share patch-embed layers, the pretrained video diffusion backbone, and patch-unembed layers. Three training objectives (video diffusion, joint video+action diffusion, action-only diffusion) are sampled per minibatch element. At inference, the action-only path produces an action chunk in a single 84&#x2009;ms DDIM step.">
       </figure>
       <p>
-        TAPESTRY treats robot actions as single-patch tokens in the video
-        model's latent space. Video latents and action patches share the same
+        TAPESTRY treats robot actions as single-patch tokens in a video
+        generation model's latent space. Video latents and action patches share the same
         patchifying layers and the same diffusion backbone. The shared backbone is trained jointly on three diffusion
         objectives, and at test time the policy generates an action chunk in a
         single DDIM step from pure noise, no video generation required.
@@ -96,18 +96,18 @@
     <section class="results">
       <h2>In-distribution rollouts</h2>
       <div class="video-stack">
-        <figure><video src="videos/oven_id.mp4"    controls muted preload="metadata" playsinline></video><figcaption>&ldquo;Open the oven and put the croissant on the plate&rdquo; &middot; 1&times; speed</figcaption></figure>
-        <figure><video src="videos/toolbox_id.mp4" controls muted preload="metadata" playsinline></video><figcaption>&ldquo;Open the lid of the toolbox and put the screwdriver inside&rdquo; &middot; 1&times; speed</figcaption></figure>
-        <figure><video src="videos/corn_id.mp4"    controls muted preload="metadata" playsinline></video><figcaption>&ldquo;Put the corn in the bowl&rdquo; &middot; 1&times; speed</figcaption></figure>
+        <figure><video src="videos/oven_id.mp4"    controls autoplay muted playsinline preload="auto"></video><figcaption>&ldquo;Open the oven and put the croissant on the plate&rdquo; &middot; 1&times; speed</figcaption></figure>
+        <figure><video src="videos/toolbox_id.mp4" controls autoplay muted playsinline preload="auto"></video><figcaption>&ldquo;Open the lid of the toolbox and put the screwdriver inside&rdquo; &middot; 1&times; speed</figcaption></figure>
+        <figure><video src="videos/corn_id.mp4"    controls autoplay muted playsinline preload="auto"></video><figcaption>&ldquo;Put the corn in the bowl&rdquo; &middot; 1&times; speed</figcaption></figure>
       </div>
     </section>
 
     <section class="results">
       <h2>Out-of-distribution generalization</h2>
       <div class="video-stack">
-        <figure><video src="videos/oven_ood.mp4"      controls muted preload="metadata" playsinline></video><figcaption>&ldquo;Open the oven and put the croissant on the plate&rdquo; &middot; 1&times; speed</figcaption></figure>
-        <figure><video src="videos/pour_ood.mp4"      controls muted preload="metadata" playsinline></video><figcaption>&ldquo;Pour the golf ball out of the bowl&rdquo; &middot; 1&times; speed</figcaption></figure>
-        <figure><video src="videos/boomerang_ood.mp4" controls muted preload="metadata" playsinline></video><figcaption>&ldquo;Pick up the yellow Lego brick and place it on the wooden boomerang&rdquo; &middot; 1&times; speed</figcaption></figure>
+        <figure><video src="videos/oven_ood.mp4"      controls autoplay muted playsinline preload="auto"></video><figcaption><strong>Novel placement.</strong> &ldquo;Open the oven and put the croissant on the plate&rdquo; &middot; 1&times; speed</figcaption></figure>
+        <figure><video src="videos/pour_ood.mp4"      controls autoplay muted playsinline preload="auto"></video><figcaption><strong>Novel primitive.</strong> &ldquo;Pour the golf ball out of the bowl&rdquo; &middot; 1&times; speed</figcaption></figure>
+        <figure><video src="videos/boomerang_ood.mp4" controls autoplay muted playsinline preload="auto"></video><figcaption><strong>Novel composition.</strong> &ldquo;Pick up the yellow Lego brick and place it on the wooden boomerang&rdquo; &middot; 1&times; speed</figcaption></figure>
       </div>
     </section>
 
@@ -121,6 +121,14 @@
     </section>
 
   </main>
+
+  <script>
+    // JS loop instead of the `loop` attribute — Chromium's `loop` interferes
+    // with scrubbing (drag-to-seek snaps back to current time).
+    document.querySelectorAll('video').forEach(v => {
+      v.addEventListener('ended', () => { v.currentTime = 0; v.play(); });
+    });
+  </script>
 
 </body>
 </html>
